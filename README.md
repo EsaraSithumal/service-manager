@@ -5,6 +5,10 @@
 System to manage Service Providers and Clients
 -->
 
+## Team
+-  Kumara W.M.E.S.K, [e17176@eng.pdn.ac.lk](mailto:e17176@eng.pdn.ac.lk)
+<!-- Update team deatials here, above is an example only>
+
 #### Table of Contents
 1. [Introduction](#introduction)
 2. [Solution Architecture](#solution-architecture )
