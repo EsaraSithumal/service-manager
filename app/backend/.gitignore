@@ -1,1 +1,6 @@
+# ignore node_modules directory
 node_modules/
+
+# ignore environment configuration file
+# template for '.env' files is available in the '.env.example' file
+.env
