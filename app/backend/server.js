@@ -1,7 +1,7 @@
 const express = require('express');
-
+const connectDB = require('./configurations/db-config')
 const app = express();
-
+connectDB();
 let port = 3000;
 const portArg = process.argv[2];
 if (portArg !== undefined && !Number.isNaN(parseInt(portArg, 10))) {
