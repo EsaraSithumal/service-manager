@@ -8,8 +8,8 @@ const uri=process.env.DB_URI
 const connectDB = async () =>{
 
     try{
-        const connect = await mongoos.createConnection(uri).asPromise();
-        console.log(`Connected to  the DB ,(${connect.connection})`)
+        const connect = await mongoos.connect(uri)
+        console.log(`Connected to  the DB ,(${connect.connection.id})`)
     }catch(err){
         console.log(`DB Error: ${err.message}`)
         process.exit(1)

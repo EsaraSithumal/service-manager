@@ -1,9 +1,6 @@
 // models of the user
 
-
 const mongoose = require('mongoose');
-
-const Scema = mongoose.Schema;
 
 const userScema = new mongoose.Schema({
     first_name:{

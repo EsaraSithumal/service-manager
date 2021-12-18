@@ -1,16 +1,19 @@
 const express = require('express');
 const connectDB = require('./configurations/db-config')
 const app = express();
+
+app.use(express.json())
+
+let port = process.env.PORT || 3000;
+
 connectDB();
-let port = 3000;
-const portArg = process.argv[2];
-if (portArg !== undefined && !Number.isNaN(parseInt(portArg, 10))) {
-  port = parseInt(portArg, 10);
-}
 
 app.get('/', (req, res) => {
-  res.send('<h1>Hello Backend</h1>');
+  res.send('Well Come to the API');
 });
+
+const signup = require('./routes/signup')
+app.use('/signup' , signup)
 
 app.listen(port, () => {
   console.log(`Server is running on localhost:${port}`);
