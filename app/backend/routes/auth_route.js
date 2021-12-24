@@ -3,17 +3,21 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const router = express.Router()
 const userSchema = require('../models/user')
-//const authorize = require('../middlewares/auth')
+const authenticateToken = require('../middlewares/auth')
 const {check , oneOf,  validationResult} = require('express-validator');
 const { application } = require('express');
+
+let refreshTokens = [];
+
+router.post('/protect' , authenticateToken,(req, res)=>{
+    res.send('Hello from protected area')
+} )
 
 /**
  * Auth2 authentication
  * issue a web token to correct password and email
  * /auth/signin
  */
- 
-
 router.post('/signin' , (req, res, next)=>{
     let getUser ;
     userSchema.findOne({email:req.body.email}) // find the user with given email
@@ -23,19 +27,22 @@ router.post('/signin' , (req, res, next)=>{
         }
         getUser = user;
         // if the user exist in the system, compare the hashed password with stored one
-        bcrypt.compare(req.body.password , user.password); 
-    })
-    .then((response)=>{
+        bcrypt.compare(req.body.password , user.password)
+        .then((response)=>{
 
-        if(!response){ // if the password missmacth return unauthorized message
-            return res.status(401).json({message:'Authentication failed'})
-        }
-
-        // if the password is match with the given password, create a jwtToken and send it to the user
-        // with 200 status code
-        let jwtToken = jwt.sign({emai: getUser.email , userId: getUser._id} , process.env.SECRET , {expiresIn: '1h'}) 
-        res.status(200).json({token:jwtToken,expiresIN : 3600,msg: getUser});
+            if(!response){ // if the password missmacth return unauthorized message
+                return res.status(401).json({message:'Authentication failed'})
+            }
+    
+            // if the password is match with the given password, create a jwtToken and send it to the user
+            // with 200 status code
+            let accessToken = jwt.sign({emai: getUser.email , userId: getUser._id} , process.env.ACCESS_SECRET , {expiresIn: '30s'})
+            let refreshToken = jwt.sign({emai: getUser.email , userId: getUser._id} , process.env.REFRESH_SECRET ) 
+            refreshTokens.push(refreshToken);
+            res.status(200).json({refreshToken,accessToken,expiresIN : 3600,msg: getUser});
+        })
     })
+    
     .catch((err) =>{
         return res.status(401).json({message:'Authentication failed'})
     })
@@ -85,5 +92,29 @@ router.post('/signup' ,
     }
     
 )
+
+// send a access token to the array
+router.post('/token' , (req, res)=>{
+    refreshToken = req.header('token');
+
+    if(refreshToken ==null) return res.sendStatus(401)
+    if(!refreshTokens.includes(refreshToken)){
+        return res.sendStatus(403)
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_SECRET ,(err , result)=>{
+        if(err) return res.sendStatus(403)
+        
+        const accessToken = jwt.sign({email:result.email},process.env.ACCESS_SECRET ,{expiresIn:'20s'});
+        return res.json({success: true , accessToken});
+    })
+
+})
+
+// delete the refresh token from array
+router.post('/logout' , (req, res) =>{
+    refreshTokens = refreshTokens.filter( token => token !== req.header('token'))
+    req.sendStatus(204)
+})
 
 module.exports = router

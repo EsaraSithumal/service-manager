@@ -2,3 +2,10 @@ mongoos-unique-validator
 
 https://www.youtube.com/watch?v=LA16VCpUido
 https://www.youtube.com/watch?v=SQqSMDIzhaE
+
+
+node
+require('crypto).randomBytes(64).toString('hex')
+
+// adobe xd viwe
+https://xd.adobe.com/view/48e3d430-74b7-4e15-84f2-eeb86080f81e-1db0/

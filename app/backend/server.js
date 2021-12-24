@@ -15,8 +15,8 @@ app.get('/', (req, res) => {
   res.send('Well Come to the API');
 });
 
-//const signup = require('./routes/signup')
-//app.use('/signup' , signup)
+// const signup = require('./routes/signup')
+// app.use('/signup' , signup)
 
 const auth = require('./routes/auth_route')
 app.use('/auth' , auth)

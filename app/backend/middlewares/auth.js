@@ -1,17 +1,18 @@
 // middleware for validate the authtoken
 
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 
-
-const verified = (req, res , next) =>{
+const authenticateToken = (req, res , next) =>{
     try{
         const token = req.header('x-auth-token');
-        jwt.verify(token,process.env.SECRET )
+        //console.log("token : " ,token)
+        jwt.verify(token,process.env.ACCESS_SECRET)
         next();
     }catch(error){
-        res.status(401).json({message: "No token cannot authorize"})
+        res.status(401).json({message: error.message})
     }
 }
 
-module.exports = verified
+module.exports = authenticateToken
