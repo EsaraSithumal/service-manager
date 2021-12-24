@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './home/home.dart';
+import './Home/home.dart';
+import './route_generator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,10 +18,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Service Manager',
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
         theme: ThemeData(
           //color theme
           colorScheme: const ColorScheme(
-              primary: Color.fromARGB(100, 78, 71, 71),
+              primary: Colors.brown,
               secondary: Color.fromARGB(100, 218, 214, 214),
               background: Color.fromARGB(100, 255, 255, 255),
               brightness: Brightness.light,
@@ -39,8 +42,9 @@ class _MyAppState extends State<MyApp> {
             style: ButtonStyle(
               shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
                 (Set<MaterialState> states) {
-                  return ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(50));
+                  return const ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                  );
                 },
               ),
               padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>(
@@ -48,16 +52,16 @@ class _MyAppState extends State<MyApp> {
                   return const EdgeInsets.only(bottom: 15, top: 15);
                 },
               ),
-              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              /*backgroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
-                  return const Color.fromARGB(100, 10, 11, 51);
+                  return const Color.fromARGB(100, 78, 71, 71);
                 },
               ),
               foregroundColor: MaterialStateProperty.resolveWith<Color>(
                 (Set<MaterialState> states) {
-                  return const Color.fromARGB(100, 218, 214, 214);
+                  return const Color.fromARGB(100, 255, 255, 255);
                 },
-              ),
+              ),*/
               textStyle: MaterialStateProperty.resolveWith<TextStyle>(
                   (Set<MaterialState> states) {
                 return const TextStyle(
