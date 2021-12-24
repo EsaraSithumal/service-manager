@@ -4,3 +4,6 @@ node_modules/
 # ignore environment configuration file
 # template for '.env' files is available in the '.env.example' file
 .env
+
+# resource file for VSCode extension 'REST Client'
+route.rest
