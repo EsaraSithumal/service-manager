@@ -23,19 +23,19 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           //color theme
           colorScheme: const ColorScheme(
-              primary: Colors.brown,
-              secondary: Color.fromARGB(100, 218, 214, 214),
-              background: Color.fromARGB(100, 255, 255, 255),
+              primary: Color.fromARGB(255, 78, 71, 71),
+              secondary: Color.fromARGB(255, 163, 157, 157),
+              background: Color.fromARGB(255, 255, 255, 255),
               brightness: Brightness.light,
-              error: Color.fromARGB(100, 255, 0, 0),
-              onBackground: Color.fromARGB(100, 0, 0, 0),
-              onError: Color.fromARGB(100, 255, 255, 255),
-              onPrimary: Color.fromARGB(100, 255, 255, 255),
-              onSecondary: Color.fromARGB(100, 255, 255, 255),
-              onSurface: Color.fromARGB(100, 0, 0, 0),
-              primaryVariant: Color.fromARGB(100, 50, 47, 47),
-              secondaryVariant: Color.fromARGB(100, 163, 157, 157),
-              surface: Color.fromARGB(100, 255, 255, 255)),
+              error: Color.fromARGB(255, 255, 0, 0),
+              onBackground: Color.fromARGB(255, 0, 0, 0),
+              onError: Color.fromARGB(255, 255, 255, 255),
+              onPrimary: Color.fromARGB(255, 255, 255, 255),
+              onSecondary: Color.fromARGB(255, 255, 255, 255),
+              onSurface: Color.fromARGB(255, 0, 0, 0),
+              primaryVariant: Color.fromARGB(255, 50, 47, 47),
+              secondaryVariant: Color.fromARGB(255, 163, 157, 157),
+              surface: Color.fromARGB(255, 255, 255, 255)),
 
           //theme for all the elevated buttons
           elevatedButtonTheme: ElevatedButtonThemeData(
