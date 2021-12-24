@@ -9,7 +9,8 @@ const { application } = require('express');
 
 let refreshTokens = [];
 
-router.post('/protect' , authenticateToken,(req, res)=>{
+router.post('/protect'  , authenticateToken,(req, res)=>{
+    console.log(req.userId);
     res.send('Hello from protected area')
 } )
 
@@ -93,7 +94,9 @@ router.post('/signup' ,
     
 )
 
-// send a access token to the array
+/**
+ * genrate a new access token
+ */
 router.post('/token' , (req, res)=>{
     refreshToken = req.header('token');
 
@@ -105,21 +108,68 @@ router.post('/token' , (req, res)=>{
     jwt.verify(refreshToken, process.env.REFRESH_SECRET ,(err , result)=>{
         if(err) return res.sendStatus(403)
         
-        const accessToken = jwt.sign({email:result.email},process.env.ACCESS_SECRET ,{expiresIn:'20s'});
+        const accessToken = jwt.sign({email:result.email ,userId: result.userId },process.env.ACCESS_SECRET ,{expiresIn:'1h'});
         return res.json({success: true , accessToken});
     })
 
 })
 
-// delete the refresh token from array
+/**
+ * invalidate the refresh token
+ * delete the refresh token from array
+ */
+
 router.post('/logout' , (req, res) =>{
     refreshTokens = refreshTokens.filter( token => token !== req.header('token'))
     req.sendStatus(204)
 })
 
-
+/**
+ * check password as a input and 
+ * return 'password_matched' true or false
+ */
 router.post('/check_password' , (req, res) =>{
-    res.send('success')
+    const email = req.body.email
+
+    // find the relavent user 
+    userSchema.findOne({email})
+    .then((user)=>{
+        if(!user){
+            return res.status(401).json({message:"Authentication failed"});
+        }
+        // compaire a the password with stored one
+        bcrypt.compare(req.body.password , user.password , password)
+        .then((response)=>{
+            if(!response){
+                return res.status(401).json({password_matched:false})
+            }
+
+            return res.status(200).json({password_matched:trun})
+        })
+    })
+})
+
+// have to compleate
+router.post('/update_password' , (req, res)=>{
+    oneOf(
+    [check('new_password' ,'Passwrod should be between 5 to 8 characters long').not().isEmpty().isLength({min:5 , max:8}),
+    check('new_comfirm_password' ,'Passwrod should be between 5 to 8 characters long').not().isEmpty().isLength({min:5 , max:8})
+    ]),
+    (req, res) =>{
+        const error = validationResult(req)
+        if(!error.isEmpty()){
+            return res.status(422).json(errors.array())
+        }else{
+            bcrypt.hashSync(req.body.new_password,10)
+            .then((hash) =>{
+                userSchema.findOneAndUpdate({email:req.body.email} , {password :hash})
+
+
+                return res.status(200).json({message:'Successfuly Updated'})
+            })
+        }
+    }
+
 })
 
 module.exports = router

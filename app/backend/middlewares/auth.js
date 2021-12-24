@@ -8,7 +8,9 @@ const authenticateToken = (req, res , next) =>{
     try{
         const token = req.header('x-auth-token');
         // console.log("token : " ,token)
-        jwt.verify(token,process.env.ACCESS_SECRET)
+        decodeRes= jwt.verify(token,process.env.ACCESS_SECRET )
+        req.userId = decodeRes.userId
+        req.email = decodeRes.email
         next();
     }catch(error){
         res.status(401).json({message: error.message})
