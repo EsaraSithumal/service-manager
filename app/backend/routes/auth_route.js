@@ -117,4 +117,9 @@ router.post('/logout' , (req, res) =>{
     req.sendStatus(204)
 })
 
+
+router.post('/check_password' , (req, res) =>{
+    res.send('success')
+})
+
 module.exports = router
