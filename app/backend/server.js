@@ -15,11 +15,20 @@ app.get('/', (req, res) => {
   res.send('Well Come to the API');
 });
 
-//const signup = require('./routes/signup')
-//app.use('/signup' , signup)
+// const signup = require('./routes/signup')
+// app.use('/signup' , signup)
 
 const auth = require('./routes/auth_route')
 app.use('/auth' , auth)
+
+const serviceRouter = require('./routes/services')
+app.use('/services', serviceRouter)
+
+const categoryRouter = require('./routes/categories')
+app.use('/categories', categoryRouter)
+
+const reviewRouter = require('./routes/reviews')
+app.use('/reviews', reviewRouter)
 
 app.listen(port, () => {
   console.log(`Server is running on localhost:${port}`);
