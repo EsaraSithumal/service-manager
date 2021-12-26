@@ -44,7 +44,7 @@ class AddData extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.brown[900],
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                 ),
                 Text('  ' + name),
                 Expanded(
@@ -74,7 +74,7 @@ class Rating extends StatelessWidget {
           rating: rating,
           itemBuilder: (context, index) => const Icon(
             Icons.star,
-            color: Colors.black26,
+            color: Color.fromARGB(255, 0, 0, 0),
           ),
           itemCount: 5,
           itemSize: 20.0,

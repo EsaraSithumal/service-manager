@@ -14,7 +14,7 @@ class _SearchBarState extends State<SearchBar> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
           decoration: BoxDecoration(
-              color: Colors.brown[100],
+              color: Theme.of(context).colorScheme.secondary,
               borderRadius: const BorderRadius.all(Radius.circular(50)),
               border: Border.all(color: Theme.of(context).colorScheme.primary)),
           width: double.infinity,

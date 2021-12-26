@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:service_manager/main.dart';
 
 //login form for email password login
 class LoginForm extends StatefulWidget {
-  final VoidCallback handlelogin;
-  const LoginForm({required this.handlelogin, Key? key}) : super(key: key);
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -11,6 +12,37 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+
+  final _loginEmailController = TextEditingController(); //controller for email
+  final _loginPasswordController = TextEditingController(); //controller for pw
+
+  @override
+  void dispose() {
+    _loginEmailController.dispose(); //cleanup email field
+    _loginPasswordController.dispose(); //cleanup password field
+    super.dispose();
+  }
+
+  handleLogin(BuildContext context) async {
+    print('sign in button pressed');
+
+    if (_formKey.currentState!.validate()) {
+      //if data valid navigate to dashboard
+      //send request to serveer
+      final response = await http.get(Uri.parse(server));
+      if (response.statusCode == 200) {
+        print('HTTP succeed');
+        return response;
+      } else {
+        print('HTTP faild');
+        return response;
+      }
+    }
+    Navigator.of(context).pushNamed(
+      '/dashboard',
+      arguments: 'Hello there from the first page!',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +55,7 @@ class _LoginFormState extends State<LoginForm> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                controller: _loginEmailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -40,8 +73,9 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
               child: TextFormField(
+                controller: _loginPasswordController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -58,10 +92,8 @@ class _LoginFormState extends State<LoginForm> {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 200.0,
-              ),
+            Container(
+              alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: () => print('Forgot password button pressed'),
                   child: const Text('forgot password?')),
@@ -71,7 +103,7 @@ class _LoginFormState extends State<LoginForm> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 child: ElevatedButton(
-                  onPressed: widget.handlelogin,
+                  onPressed: () => handleLogin(context),
                   child: const Text('Sign In'),
                 ),
               ),
