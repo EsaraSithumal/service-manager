@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import './Home/home.dart';
 import './route_generator.dart';
 
+const server = 'http://192.168.43.10:5000/';
+
 void main() {
   runApp(const MyApp());
 }
@@ -24,7 +26,7 @@ class _MyAppState extends State<MyApp> {
           //color theme
           colorScheme: const ColorScheme(
               primary: Color.fromARGB(255, 78, 71, 71),
-              secondary: Color.fromARGB(255, 163, 157, 157),
+              secondary: Color.fromARGB(255, 218, 214, 214),
               background: Color.fromARGB(255, 255, 255, 255),
               brightness: Brightness.light,
               error: Color.fromARGB(255, 255, 0, 0),

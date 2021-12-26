@@ -3,17 +3,14 @@ import './loginform.dart';
 
 //this is the hompage of the app
 //logins and sign up are provided here
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
-  handleLogin(BuildContext context) {
-    print('sign in button pressed');
-    Navigator.of(context).pushNamed(
-      '/dashboard',
-      arguments: 'Hello there from the first page!',
-    );
-  }
+  @override
+  State<Home> createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
   handleGoogleLogin(BuildContext context) {
     print('sign in with google button pressed');
     Navigator.of(context).pushNamed(
@@ -33,9 +30,7 @@ class Home extends StatelessWidget {
             'Service Manager',
             style: TextStyle(fontSize: 50, color: Colors.black87),
           ),
-          LoginForm(
-            handlelogin: () => handleLogin(context),
-          ),
+          LoginForm(),
           const Text('or'),
           Padding(
             padding: const EdgeInsets.only(left: 38, right: 38),
