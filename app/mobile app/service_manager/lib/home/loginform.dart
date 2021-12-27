@@ -29,13 +29,15 @@ class _LoginFormState extends State<LoginForm> {
     if (_formKey.currentState!.validate()) {
       //if data valid navigate to dashboard
       //send request to serveer
-      final response = await http.get(Uri.parse(server));
+      final response = await http.post(Uri.parse(server), body: {
+        'email': _loginEmailController.text,
+        'password': _loginPasswordController.text
+      });
       if (response.statusCode == 200) {
-        print('HTTP succeed');
-        return response;
+        print('Login successful');
+        print(response.body);
       } else {
         print('HTTP faild');
-        return response;
       }
     }
     Navigator.of(context).pushNamed(
@@ -75,6 +77,7 @@ class _LoginFormState extends State<LoginForm> {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
               child: TextFormField(
+                obscureText: true,
                 controller: _loginPasswordController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import './Home/home.dart';
 import './route_generator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const server = 'http://192.168.43.10:5000/';
+const server = 'http://192.168.43.10:5000/'; //url of the backend
+
+final secureStorage = new FlutterSecureStorage(); //storage for sensitive data
 
 void main() {
   runApp(const MyApp());
