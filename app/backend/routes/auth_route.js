@@ -80,7 +80,6 @@ router.post('/signup' ,
                 .then((response) =>{
                     res.status(201).json({ // return the success message
                         message: 'User successfully created!',
-                        result: response
                     })
                 })
                 .catch((error) =>{ // if there is a error return a server error
