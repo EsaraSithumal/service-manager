@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './newsfeed.dart';
+import './searchbar.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -60,6 +61,7 @@ class _DashboardState extends State<Dashboard> {
         ),
         body: Column(
           children: [
+            SearchBar(),
             const Expanded(
               child: NewsFeed(),
             ),

@@ -24,12 +24,14 @@ class Advertisment extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 200,
-            decoration: BoxDecoration(color: Colors.brown[200]),
+            decoration:
+                BoxDecoration(color: Theme.of(context).colorScheme.secondary),
             child: Text('Image'),
           ),
           Container(
             width: double.infinity,
-            decoration: BoxDecoration(color: Colors.brown[500]),
+            decoration:
+                BoxDecoration(color: Theme.of(context).colorScheme.primary),
             child: AddData(
               description: this.description,
               name: this.name,
