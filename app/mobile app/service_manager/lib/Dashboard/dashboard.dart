@@ -68,12 +68,14 @@ class _DashboardState extends State<Dashboard> {
             Container(
                 width: double.infinity,
                 child: ElevatedButton(
-                    style: ButtonStyle(shape:
-                        MaterialStateProperty.resolveWith<OutlinedBorder>(
-                            (Set<MaterialState> states) {
-                      return ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.circular(0));
-                    })),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+                        (Set<MaterialState> states) {
+                          return ContinuousRectangleBorder(
+                              borderRadius: BorderRadius.circular(0));
+                        },
+                      ),
+                    ),
                     onPressed: () => print('Add service button pressed'),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

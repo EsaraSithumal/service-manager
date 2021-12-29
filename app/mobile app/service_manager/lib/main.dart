@@ -3,7 +3,7 @@ import './Home/home.dart';
 import './route_generator.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const server = 'http://192.168.43.10:5000/'; //url of the backend
+const server = 'http://192.168.8.181:5000/'; //url of the backend
 
 final secureStorage = new FlutterSecureStorage(); //storage for sensitive data
 
@@ -45,28 +45,11 @@ class _MyAppState extends State<MyApp> {
           //theme for all the elevated buttons
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-              shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
-                (Set<MaterialState> states) {
-                  return const ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                  );
-                },
-              ),
               padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>(
                 (Set<MaterialState> states) {
                   return const EdgeInsets.only(bottom: 15, top: 15);
                 },
               ),
-              /*backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-                  return const Color.fromARGB(100, 78, 71, 71);
-                },
-              ),
-              foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-                  return const Color.fromARGB(100, 255, 255, 255);
-                },
-              ),*/
               textStyle: MaterialStateProperty.resolveWith<TextStyle>(
                   (Set<MaterialState> states) {
                 return const TextStyle(
