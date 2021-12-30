@@ -79,7 +79,7 @@ router.post('/signup' ,
                 user.save() // save the schema in the database
                 .then((response) =>{
                     res.status(201).json({ // return the success message
-                        message: 'User successfully created!',
+                        message: 'User successfully created!'
                     })
                 })
                 .catch((error) =>{ // if there is a error return a server error
@@ -143,13 +143,13 @@ router.post('/check_password' , (req, res) =>{
                 return res.status(401).json({password_matched:false})
             }
 
-            return res.status(200).json({password_matched:trun})
+            return res.status(200).json({password_matched:true})
         })
     })
 })
 
 // have to compleate
-router.post('/update_password' , (req, res)=>{
+router.post('/update_password' ,
     oneOf(
     [check('new_password' ,'Passwrod should be between 5 to 8 characters long').not().isEmpty().isLength({min:5 , max:8}),
     check('new_comfirm_password' ,'Passwrod should be between 5 to 8 characters long').not().isEmpty().isLength({min:5 , max:8})
@@ -169,6 +169,6 @@ router.post('/update_password' , (req, res)=>{
         }
     }
 
-})
+)
 
 module.exports = router
