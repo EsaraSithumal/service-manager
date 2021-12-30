@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart'; //for the avatar in data field
 
+//this widget is for render the data in a advertisment
 class AddData extends StatelessWidget {
   final String name;
   final String description;
   final String serviceName;
+  final String pimageURL;
   final double rating;
 
   const AddData({
@@ -12,6 +15,7 @@ class AddData extends StatelessWidget {
     required this.description,
     required this.serviceName,
     required this.rating,
+    required this.pimageURL,
     Key? key,
   }) : super(key: key);
 
@@ -24,7 +28,8 @@ class AddData extends StatelessWidget {
         children: [
           Text(
             serviceName,
-            style: const TextStyle(
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -36,6 +41,9 @@ class AddData extends StatelessWidget {
               child: Text(
                 description,
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ),
           ),
@@ -43,10 +51,16 @@ class AddData extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                CircularProfileAvatar(
+                  pimageURL,
+                  radius: 20,
                 ),
-                Text('  ' + name),
+                Text(
+                  '  ' + name,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
                 Expanded(
                   child: Rating(
                     rating: rating,
@@ -72,15 +86,20 @@ class Rating extends StatelessWidget {
       children: [
         RatingBarIndicator(
           rating: rating,
-          itemBuilder: (context, index) => const Icon(
+          itemBuilder: (context, index) => Icon(
             Icons.star,
-            color: Color.fromARGB(255, 0, 0, 0),
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
           itemCount: 5,
           itemSize: 20.0,
           direction: Axis.horizontal,
         ),
-        Text(rating.toString() + '/5'),
+        Text(
+          rating.toString() + '/5',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
       ],
     );
   }

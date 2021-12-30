@@ -11,11 +11,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  handleGoogleLogin(BuildContext context) {
+  _handleGoogleLogin(BuildContext context) {
     print('sign in with google button pressed');
     Navigator.of(context).pushNamed(
       '/dashboard',
-      arguments: 'Hello there from the first page!',
+    );
+  }
+
+  _handleSignUp(BuildContext context) {
+    print('sign up button pressed');
+    Navigator.of(context).pushNamed(
+      '/signup',
     );
   }
 
@@ -30,14 +36,21 @@ class _HomeState extends State<Home> {
             'Service Manager',
             style: TextStyle(fontSize: 50, color: Colors.black87),
           ),
-          LoginForm(),
+          const LoginForm(),
           const Text('or'),
           Padding(
             padding: const EdgeInsets.only(left: 38, right: 38),
             child: Container(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => handleGoogleLogin(context),
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).colorScheme.primary,
+                  padding: EdgeInsets.only(top: 18, bottom: 18),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+                onPressed: () => _handleGoogleLogin(context),
                 child: const Text('Login With Google'),
               ),
             ),
@@ -48,7 +61,7 @@ class _HomeState extends State<Home> {
             children: [
               const Text('Don\'t Have an Account?'),
               TextButton(
-                  onPressed: () => print('Sign Up button pressed'),
+                  onPressed: () => _handleSignUp(context),
                   child: const Text('Sign Up'))
             ],
           )
