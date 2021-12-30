@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
               error: Color.fromARGB(255, 255, 0, 0),
               onBackground: Color.fromARGB(255, 0, 0, 0),
               onError: Color.fromARGB(255, 255, 255, 255),
-              onPrimary: Color.fromARGB(255, 255, 255, 255),
+              onPrimary: Color.fromARGB(200, 255, 255, 255),
               onSecondary: Color.fromARGB(255, 255, 255, 255),
               onSurface: Color.fromARGB(255, 0, 0, 0),
               primaryVariant: Color.fromARGB(255, 50, 47, 47),
