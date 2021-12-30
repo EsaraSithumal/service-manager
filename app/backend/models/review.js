@@ -2,12 +2,14 @@ const mongoose = require('mongoose')
 
 const reviewSchema = mongoose.Schema({
     userId: {
-        type: mongoose.Types.ObjectId,  // userSchema ObjectId
-        required: true
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
     serviceId: {
-        type: mongoose.Types.ObjectId,  // serviceSchema ObjectId
-        required: true
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'Service'
     },
     description: {
         type: String,
