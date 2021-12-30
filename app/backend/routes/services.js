@@ -1,6 +1,48 @@
 const express = require('express')
 const router = express.Router()
+
 const Service = require('../models/service')
+const authenticateToken = require('../middlewares/auth')
+
+// to get the service details (Admin)
+router.get('/profile_admin', authenticateToken, async (req, res) => {
+    try {
+        const profile = await Service.findById(req.body.serviceId, 'name description categoryId rating reviewIds')
+            .populate('adminId', 'first_name last_name email')
+            .populate('categoryId')
+            .populate({
+                path: 'reviewIds',
+                select: 'userId description rating date',
+                populate: {
+                    path: 'userId',
+                    select: 'first_name last_name'
+                }
+            })
+        res.json(profile)
+    } catch (error) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
+// to get the service details
+router.get('/profile', authenticateToken, async (req, res) => {
+    try {
+        const profile = await Service.findById(req.body.serviceId, 'name description categoryId rating reviewIds')
+            .populate('adminId', 'first_name last_name email')
+            .populate('categoryId')
+            .populate({
+                path: 'reviewIds',
+                select: 'userId description rating date',
+                populate: {
+                    path: 'userId',
+                    select: 'first_name last_name'
+                }
+            })
+        res.json(profile)
+    } catch (error) {
+        res.status(500).json({ message: err.message })
+    }
+})
 
 // to get all services
 router.get('/', async (req, res) => {
