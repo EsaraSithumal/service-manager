@@ -21,6 +21,9 @@ app.get('/', (req, res) => {
 const auth = require('./routes/auth_route')
 app.use('/auth' , auth)
 
+const homeRouter = require('./routes/home')
+app.use('/home', homeRouter)
+
 const serviceRouter = require('./routes/services')
 app.use('/services', serviceRouter)
 
