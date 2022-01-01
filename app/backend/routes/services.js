@@ -2,12 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 const Service = require('../models/service')
+const Category = require('../models/category')
 const authenticateToken = require('../middlewares/auth')
 
 // to get the service details (Admin)
 router.get('/profile_admin', authenticateToken, async (req, res) => {
     try {
-        const profile = await Service.findById(req.body.serviceId, 'name description categoryId rating reviewIds')
+        const profile = await Service.findById(req.body.serviceId, 'name description categoryId rating reviewIds location')
             .populate('adminId', 'first_name last_name email')
             .populate('categoryId')
             .populate({
@@ -27,7 +28,7 @@ router.get('/profile_admin', authenticateToken, async (req, res) => {
 // to get the service details
 router.get('/profile', authenticateToken, async (req, res) => {
     try {
-        const profile = await Service.findById(req.body.serviceId, 'name description categoryId rating reviewIds')
+        const profile = await Service.findById(req.body.serviceId, 'name description categoryId rating reviewIds location')
             .populate('adminId', 'first_name last_name email')
             .populate('categoryId')
             .populate({
@@ -44,23 +45,30 @@ router.get('/profile', authenticateToken, async (req, res) => {
     }
 })
 
-// to get all services
-router.get('/', async (req, res) => {
+// to get all my the services
+router.get('/my', authenticateToken, async (req, res) => {
     try {
         const services = await Service.find()
+            .where('adminId').equals(req.userId)
+            .select('name description rating')
         res.json(services)
-    } catch (err) {
+    } catch (error) {
         res.status(500).json({ message: err.message })
     }
 })
 
-// to get a single service
-router.get('/:id', getService, (req, res) => {
-    res.json(res.service)
+// to get all categories for the new service form
+router.get('/new', authenticateToken, async (req, res) => {
+    try {
+        const categories = await Category.find()
+        res.json(categories)
+    } catch (error) {
+        res.status(500).json({ message: err.message })
+    }
 })
 
 // to create a new service
-router.post('/', async (req, res) => {
+router.post('/new', async (req, res) => {
     // TODO: validate 'adminId' and 'categoryId'
     const service = new Service({
         name: req.body.name,
@@ -68,8 +76,9 @@ router.post('/', async (req, res) => {
         adminId: req.body.adminId,
         categoryId: req.body.categoryId,
         rating: 0,
-        noOfReviews: 0
-        // 'reviewIds' is left empty
+        noOfReviews: 0,
+        location: req.body.location
+        // 'reviewIds' and 'bookedUserIds' are left empty
     })
     try {
         const newService = await service.save()
@@ -77,6 +86,28 @@ router.post('/', async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message })
     }
+})
+
+// to update a service
+router.put('/new', async (req, res) => {
+    try {
+        await Service.findByIdAndUpdate(req.body.serviceId, {
+            name: req.body.name,
+            description: req.body.description,
+            categoryId: req.body.categoryId,
+            location: req.body.location
+        })
+        res.status(201).json({ message: 'updated successfully!' })
+    } catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+})
+
+/////////////////////// for testing purposes ///////////////////////
+
+// to get a single service
+router.get('/:id', getService, (req, res) => {
+    res.json(res.service)
 })
 
 // to delete a service
