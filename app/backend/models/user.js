@@ -20,8 +20,12 @@ const userSchema = new mongoose.Schema({
     password:{
         type : String , 
         required: true
+    },
+    savedServiceIds: {
+        type: [mongoose.Types.ObjectId],
+        required: true,
+        ref: 'Service'
     }
-   
 })
 
 // validate the email 

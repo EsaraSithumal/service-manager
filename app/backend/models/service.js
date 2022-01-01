@@ -31,8 +31,17 @@ const serviceSchema = mongoose.Schema({
     noOfReviews: {
         type: Number,
         required: true
+    },
+    location: {
+        type: String,
+        required: true
+    },
+    bookedUserIds: {
+        type: [mongoose.Types.ObjectId],
+        required: true,
+        ref: 'User'
     }
-    // TODO: location, contactNo, email, subCategoryIds
+    // TODO: contactNo, email, subCategoryIds
 })
 
 module.exports = mongoose.model('Service', serviceSchema)
