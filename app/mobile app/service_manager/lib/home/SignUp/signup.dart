@@ -26,6 +26,18 @@ class _SignUpState extends State<SignUp> {
   final _cpwController = TextEditingController();
   final _addressController = TextEditingController();
 
+  //clear cotrollers when the widget is creating
+  @override
+  void dispose() {
+    super.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _pwController.dispose();
+    _cpwController.dispose();
+    _addressController.dispose();
+  }
+
   DateTime _dateOfBirth = DateTime(2000, 1, 1);
   late PhoneNumber _phoneNum;
 
@@ -52,7 +64,7 @@ class _SignUpState extends State<SignUp> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(
+      body: json.encode(
         <String, dynamic>{
           'first_name': _firstNameController.text,
           'last_name': _lastNameController.text,
@@ -63,6 +75,7 @@ class _SignUpState extends State<SignUp> {
           'address': _addressController.text,
         },
       ),
+      encoding: Encoding.getByName("utf-8"),
     );
 
     if (response.statusCode == 201) {
@@ -195,7 +208,7 @@ class _SignUpState extends State<SignUp> {
                         filled: true,
                         fillColor: Theme.of(context).colorScheme.secondary,
                         contentPadding:
-                            EdgeInsets.only(bottom: 0, top: 0, left: 10),
+                            const EdgeInsets.only(bottom: 0, top: 0, left: 10),
                       ),
                     ),
                   ),
@@ -211,14 +224,15 @@ class _SignUpState extends State<SignUp> {
                       Container(
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
                               top: 15, bottom: 15, left: 10, right: 10),
                           child: Text(
                             _DOB,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                             ),
                           ),

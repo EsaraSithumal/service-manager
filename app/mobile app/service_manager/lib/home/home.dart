@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
   _handleGoogleLogin(BuildContext context) {
     print('sign in with google button pressed');
     Navigator.of(context).pushNamed(
-      '/dashboard',
+      '/addservice',
     );
   }
 
