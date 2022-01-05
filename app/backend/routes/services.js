@@ -71,7 +71,7 @@ router.get('/new', authenticateToken, async (req, res) => {
 router.post('/new', authenticateToken, async (req, res) => {
     // TODO: validate 'adminId' and 'categoryId'
     const service = new Service({
-        name: req.body.name,
+        name: req.userId,
         description: req.body.description,
         adminId: req.body.adminId,
         categoryId: req.body.categoryId,
@@ -89,7 +89,7 @@ router.post('/new', authenticateToken, async (req, res) => {
 })
 
 // to update a service
-router.put('/new', async (req, res) => {
+router.put('/new', authenticateToken, async (req, res) => {
     try {
         await Service.findByIdAndUpdate(req.body.serviceId, {
             name: req.body.name,
