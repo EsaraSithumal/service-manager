@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:service_manager/main.dart';
 import './newsfeed.dart';
 import './searchbar.dart';
 import './sidemenuheader.dart';
@@ -10,9 +13,14 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final name = 'John Doe';
-  final email = 'johndoe@gamil.com';
-  final imageurl = 'https://avatars0.githubusercontent.com/u/8264639?s=460&v=4';
+  String name = 'John Doe';
+  String email = 'johndoe@gamil.com';
+  String imageurl =
+      'https://avatars0.githubusercontent.com/u/8264639?s=460&v=4';
+  int notificationCount = 0;
+  int serviceNotificationCount = 0;
+  int bookingNotificationCount = 0;
+  int reviewNotificationCount = 0;
 
   final topAdds = {
     {
@@ -28,7 +36,7 @@ class _DashboardState extends State<Dashboard> {
     {
       'id': 2,
       'sName': 'Welder',
-      'name': 'John Cena',
+      'name': 'Hansa Alahakoon',
       'description': 'This is the service description',
       'imageURL':
           'https://www.goodshomedesign.com/wp-content/uploads/2015/09/amazing-welding-skills.jpg',
@@ -60,17 +68,74 @@ class _DashboardState extends State<Dashboard> {
     },
   };
 
+  late Future<dynamic> data;
+
+  Future<dynamic> _fetchData() async {
+    //read the access token from the secure storage
+    final aToken = await secureStorage.read(key: 'accessToken');
+
+    final http.Response response = await http.get(
+      Uri.parse(server + 'home/feed'),
+      headers: {'x-auth-token': aToken.toString()},
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else if (response.statusCode == 500) {
+      throw Exception('Server Error');
+    } else if (response.statusCode == 401) {
+      throw Exception('Token Invalid');
+    } else {
+      throw Exception('Unkmown error');
+    }
+  }
+
+  //this method is called before the build method in this widget
+  //it is only called only once
+  //data need to build the dashboard is fetched by calling _fetchData function
+  @override
+  void initState() {
+    super.initState();
+    data = _fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    //this futur builder will render the dashboard if data is fetched from server,
+    //else there will be a error message
+    return FutureBuilder(
+      future: data,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return _buildDashboard();
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            body: Center(
+              child: Text('Data Fetching Faild: ${snapshot.error}'),
+            ),
+          );
+        }
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+    );
+  }
+
+  //this function is for return the dashboard
+  Widget _buildDashboard() {
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () => print('Bell icon pressed'),
-              icon: const Icon(Icons.notifications)),
+            onPressed: () => print('Bell icon pressed'),
+            icon: _buildNotificationIcon(),
+          ),
           IconButton(
-              onPressed: () => print('Profile icon pressed'),
-              icon: const Icon(Icons.person))
+            onPressed: () => print('Profile Icon pressed'),
+            icon: const Icon(Icons.person),
+          )
         ],
       ),
       drawer: Drawer(
@@ -89,19 +154,22 @@ class _DashboardState extends State<Dashboard> {
             ),
             const ListTile(
               leading: Icon(Icons.account_circle),
-              title: Text('MY Profile'),
+              title: Text('My Profile'),
             ),
-            const ListTile(
-              leading: Icon(Icons.supervised_user_circle),
-              title: Text('My Services'),
+            ListTile(
+              leading: const Icon(Icons.supervised_user_circle),
+              trailing: _buildMenuNotification(serviceNotificationCount),
+              title: const Text('My Services'),
             ),
-            const ListTile(
-              leading: Icon(Icons.book_online),
-              title: Text('My Bookings'),
+            ListTile(
+              leading: const Icon(Icons.book_online),
+              trailing: _buildMenuNotification(bookingNotificationCount),
+              title: const Text('My Bookings'),
             ),
-            const ListTile(
-              leading: Icon(Icons.reviews),
-              title: Text('To Be Reviewed'),
+            ListTile(
+              leading: const Icon(Icons.reviews),
+              trailing: _buildMenuNotification(reviewNotificationCount),
+              title: const Text('To Be Reviewed'),
             ),
             const ListTile(
               leading: Icon(Icons.logout),
@@ -112,7 +180,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: Column(
         children: [
-          SearchBar(),
+          const SearchBar(),
           Expanded(
             child: NewsFeed(
               advertisments: topAdds,
@@ -129,7 +197,11 @@ class _DashboardState extends State<Dashboard> {
                   },
                 ),
               ),
-              onPressed: () => print('Add service button pressed'),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  '/addservice',
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,5 +212,66 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
     );
+  }
+
+  Widget _buildNotificationIcon() {
+    if (notificationCount > 0) {
+      return Stack(
+        children: [
+          const Icon(Icons.notifications),
+          Positioned(
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              constraints: const BoxConstraints(
+                minWidth: 12,
+                minHeight: 12,
+              ),
+              child: Center(
+                child: Text(
+                  notificationCount.toString(),
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return const Icon(Icons.notifications);
+    }
+  }
+
+  Widget _buildMenuNotification(int count) {
+    if (count > 0) {
+      return Container(
+        child: Center(
+          child: Text(
+            count.toString(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+            ),
+          ),
+        ),
+        padding: const EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        constraints: const BoxConstraints(
+          minWidth: 12,
+          minHeight: 12,
+          maxWidth: 25,
+          maxHeight: 14,
+        ),
+      );
+    } else {
+      return Text('');
+    }
   }
 }

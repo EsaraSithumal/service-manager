@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
               onSecondary: Color.fromARGB(255, 255, 255, 255),
               onSurface: Color.fromARGB(255, 0, 0, 0),
               primaryVariant: Color.fromARGB(255, 50, 47, 47),
-              secondaryVariant: Color.fromARGB(255, 163, 157, 157),
+              secondaryVariant: Color.fromARGB(255, 100, 100, 100),
               surface: Color.fromARGB(255, 255, 255, 255)),
 
           //theme for all the elevated buttons
