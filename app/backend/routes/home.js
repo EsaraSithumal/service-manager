@@ -7,10 +7,12 @@ const authenticateToken = require('../middlewares/auth')
 
 // to get the user details
 router.get('/profile', authenticateToken, async (req, res) => {
-    res.json(await User.findById(req.userId)
-        .select("first_name")
-        .select("last_name")
-        .select("email"))
+    try {
+        const user = await User.findById(req.userId, 'first_name last_name email')
+        res.json(user)
+    } catch (error) {
+        res.status(500).json({ message: err.message })
+    }
 })
 
 // to update the user details
@@ -29,11 +31,8 @@ router.put('/profile', authenticateToken, async (req, res) => {
 // to get trending services
 router.get('/feed', authenticateToken, async (req, res) => {
     try {
-        res.json(await Service.find()
-            .select('name')
-            .select('description')
-            .select('categoryId')
-            .select('rating'))
+        const feed = await Service.find({}, 'name description categoryId rating').populate('categoryId')
+        res.json(feed)
     } catch (err) {
         res.status(500).json({ message: err.message })
     }

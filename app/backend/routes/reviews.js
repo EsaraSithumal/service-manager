@@ -35,6 +35,11 @@ router.post('/', async (req, res) => {
         // appending the 'reviewIds' of the service
         const service = await getService(mongoose.Types.ObjectId(req.body.serviceId))
         service.reviewIds.push(newReview._id)
+
+        // calculating and updating the rating of the service
+        service.rating = (service.rating * service.noOfReviews + newReview.rating) / (service.noOfReviews + 1)
+        service.noOfReviews += 1
+
         await service.save()
 
         res.status(201).json(newReview)
