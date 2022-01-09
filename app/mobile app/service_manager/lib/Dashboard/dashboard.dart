@@ -6,6 +6,17 @@ import './newsfeed.dart';
 import './searchbar.dart';
 import './sidemenuheader.dart';
 
+/*
+todo:
+  Search bar functionality
+  Drawer tabs - 
+    -all
+  Load newsfeed using data fetched from server
+    -now it renders data in the static map
+  Request profile data from the server and render
+    -now displays some static data 
+*/
+
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
   @override
@@ -98,6 +109,13 @@ class _DashboardState extends State<Dashboard> {
     data = _fetchData();
   }
 
+  //method to handle profile tab and profile icon button tap
+  void _handleProfileTap() {
+    Navigator.of(context).pushNamed(
+      '/profile',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //this futur builder will render the dashboard if data is fetched from server,
@@ -133,7 +151,7 @@ class _DashboardState extends State<Dashboard> {
             icon: _buildNotificationIcon(),
           ),
           IconButton(
-            onPressed: () => print('Profile Icon pressed'),
+            onPressed: _handleProfileTap,
             icon: const Icon(Icons.person),
           )
         ],
@@ -152,9 +170,10 @@ class _DashboardState extends State<Dashboard> {
                 email: email,
               ),
             ),
-            const ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('My Profile'),
+            ListTile(
+              onTap: _handleProfileTap,
+              leading: const Icon(Icons.account_circle),
+              title: const Text('My Profile'),
             ),
             ListTile(
               leading: const Icon(Icons.supervised_user_circle),

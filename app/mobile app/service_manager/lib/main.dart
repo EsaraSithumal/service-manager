@@ -5,7 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 const server = 'http://192.168.8.181:5000/'; //url of the backend
 
-final secureStorage = new FlutterSecureStorage(); //storage for sensitive data
+const secureStorage = FlutterSecureStorage(); //storage for sensitive data
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Service Manager',
+        title: 'Aloni',
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
         theme: ThemeData(

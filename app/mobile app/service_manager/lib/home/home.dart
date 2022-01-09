@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import './loginform.dart';
 
+/*
+todo:
+  Embade google login
+  Forgot PW
+*/
+
 //this is the hompage of the app
 //logins and sign up are provided here
 class Home extends StatefulWidget {
@@ -33,7 +39,7 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Service Manager',
+            'Aloni',
             style: TextStyle(fontSize: 50, color: Colors.black87),
           ),
           const LoginForm(),

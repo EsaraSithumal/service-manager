@@ -47,6 +47,7 @@ class _AddServiceState extends State<AddService> {
   late PhoneNumber _officialPhoneNum;
 
   //clear controllers
+  @override
   void dispose() {
     super.dispose();
     _serviceNameController.dispose();
@@ -69,7 +70,7 @@ class _AddServiceState extends State<AddService> {
     ];
 
     final http.Response response = await http.post(
-      Uri.parse(server + 'services/'),
+      Uri.parse(server + 'services/new'),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': aToken.toString(),
@@ -79,11 +80,11 @@ class _AddServiceState extends State<AddService> {
           'name': _serviceNameController.text,
           'description': _descriptionController.text,
           'officePhoneNum': _officialPhoneNum.toString(),
-          'serviceArea': _serviceAreaController.text,
+          'location': _serviceAreaController.text,
           'tags': selectedTags,
           'images': base64Images,
-          'adminId': 1.toString(),
-          'categoryId': 2.toString(),
+          'adminId': '610f80dd1342be066c0ce42d',
+          'categoryId': '610f80dd1342be066c0ce42d',
         },
       ),
       encoding: Encoding.getByName("utf-8"),
@@ -91,6 +92,8 @@ class _AddServiceState extends State<AddService> {
 
     if (response.statusCode == 201) {
       return true;
+    } else if (response.statusCode == 401) {
+      throw Exception('Token Invalid');
     } else {
       throw Exception('Add Service Faild');
     }
@@ -342,12 +345,12 @@ class _AddServiceState extends State<AddService> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Service Creation Failed'),
+                  Text('${snapshot.error}'),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('back'),
+                    child: const Text('back'),
                   ),
                 ],
               ),

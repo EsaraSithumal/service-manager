@@ -83,6 +83,7 @@ class Rating extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         RatingBarIndicator(
           rating: rating,
@@ -91,7 +92,7 @@ class Rating extends StatelessWidget {
             color: Theme.of(context).colorScheme.onPrimary,
           ),
           itemCount: 5,
-          itemSize: 20.0,
+          itemSize: 15.0,
           direction: Axis.horizontal,
         ),
         Text(
