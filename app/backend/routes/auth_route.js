@@ -37,7 +37,7 @@ router.post('/signin' , (req, res, next)=>{
     
             // if the password is match with the given password, create a jwtToken and send it to the user
             // with 200 status code
-            let accessToken = jwt.sign({emai: getUser.email , userId: getUser._id} , process.env.ACCESS_SECRET , {expiresIn: '30s'})
+            let accessToken = jwt.sign({emai: getUser.email , userId: getUser._id} , process.env.ACCESS_SECRET , {expiresIn: '1h'})
             let refreshToken = jwt.sign({emai: getUser.email , userId: getUser._id} , process.env.REFRESH_SECRET ) 
             refreshTokens.push(refreshToken);
             res.status(200).json({refreshToken,accessToken,expiresIN : 3600,msg: getUser});

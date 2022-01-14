@@ -22,20 +22,20 @@ class SideMenuHeader extends StatelessWidget {
           imageURL,
           radius: 30,
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Text(
-            name,
-            style: const TextStyle(
-              fontSize: 25,
+        Expanded(
+          child: Center(
+            child: Text(
+              name,
+              style: const TextStyle(
+                fontSize: 25,
+              ),
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20.0, top: 5),
+        Expanded(
           child: Text(
             email,
-            style: TextStyle(fontWeight: FontWeight.w400),
+            style: const TextStyle(fontWeight: FontWeight.w400),
           ),
         ),
       ],

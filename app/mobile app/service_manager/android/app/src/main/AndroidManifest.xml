@@ -3,7 +3,7 @@
     <!--Add internet permissions-->
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="service_manager"
+        android:label="Aloni"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
