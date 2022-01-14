@@ -33,6 +33,9 @@ app.use('/categories', categoryRouter)
 const reviewRouter = require('./routes/reviews')
 app.use('/reviews', reviewRouter)
 
+const searchRouter = require('./routes/search')
+app.use('/search', searchRouter)
+
 app.listen(port, () => {
   console.log(`Server is running on localhost:${port}`);
 });

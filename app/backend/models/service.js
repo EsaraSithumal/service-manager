@@ -36,10 +36,10 @@ const serviceSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    bookedUserIds: {
+    bookingIds: {
         type: [mongoose.Types.ObjectId],
         required: true,
-        ref: 'User'
+        ref: 'Booking'
     }
     // TODO: contactNo, email, subCategoryIds
 })
